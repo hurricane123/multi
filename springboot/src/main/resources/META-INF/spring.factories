@@ -1,0 +1,4 @@
+org.springframework.context.ApplicationContextInitializer=com.hurricane.learn.springboot.standard.initializer.MyApplicationContextInitializer
+
+
+org.springframework.context.ApplicationListener=com.hurricane.learn.springboot.standard.listener.MyApplicationListener
