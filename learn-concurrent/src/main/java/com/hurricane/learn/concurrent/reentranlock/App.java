@@ -1,7 +1,12 @@
 package com.hurricane.learn.concurrent.reentranlock;
 
 import java.util.concurrent.locks.ReentrantLock;
-
+/**
+ * 重入锁通过lockInterruptibly获取，可被中断
+ * 通过lock方法获取和synchronized关键字一样无法被中断
+ * @author Administrator
+ *
+ */
 public class App implements Runnable{
 	int i;
 	static ReentrantLock lock1 = new ReentrantLock();
