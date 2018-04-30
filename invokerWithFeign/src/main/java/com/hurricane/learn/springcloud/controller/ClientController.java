@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.hurricane.learn.springcloud.client.UserClient;
 import com.hurricane.learn.springcloud.entity.User;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
@@ -22,15 +23,16 @@ public class ClientController {
 	private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
 	@Autowired
-	private RestTemplate template;
-
+	UserClient client;
+	
 	/**
 	 * RestTemplate能够进行对象的封装
 	 * @return
 	 */
 	@GetMapping(value="/invoke")
 	public Object invoke() {
-		User user = template.getForObject("http://user-service-provider/getUser", User.class);
+		System.out.println("feign");
+		User user = client.getUser();
 		return user;
 	}
 	

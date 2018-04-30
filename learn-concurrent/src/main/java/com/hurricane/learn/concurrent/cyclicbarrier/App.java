@@ -12,26 +12,50 @@ import java.util.concurrent.Executors;
 public class App implements Runnable{
 	static Random random = new Random();
 	static CyclicBarrier barrier;
-	static ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(10);
+//	static ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(10);
 	static int cnt = 3;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		barrier = new CyclicBarrier(10, ()->{
 			cnt--;
 			System.out.println("所有任务结束");
 			if (cnt>0) {
 				System.out.println("打开另外10个任务");
-				newTenTask();
+				try {
+					newTenTask();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}else {
-				newFixedThreadPool.shutdown();
+//				newFixedThreadPool.shutdown();
 			}
 		});
 		newTenTask();
 //		System.out.println("qqq");
 	}
 	
-	public static void newTenTask() {
+	public static void newTenTask() throws InterruptedException {
+//		for (int i = 0; i < 10; i++) {
+//			newFixedThreadPool.submit(new App());
+//		}
 		for (int i = 0; i < 10; i++) {
-			newFixedThreadPool.submit(new App());
+			Thread thread = new Thread(new App());
+			thread.start();
+			if (i==5) {
+				Thread.sleep(100);
+				if (thread.isAlive()) {
+					System.out.println(thread.getName()+"---alive");
+					thread.interrupt();
+				}
+//				try {
+//					Thread.sleep(100);
+//					if (thread.isAlive()) {
+//						System.out.println(thread.getName()+"---alive");
+//						thread.interrupt();
+//					}
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+			}
 		}
 	}
 	
