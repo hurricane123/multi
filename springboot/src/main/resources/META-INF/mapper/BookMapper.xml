@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.hurricane.learn.springboot.web.dao.BookDao">  
+  
+  
+    <select id="findById" resultType="com.hurricane.learn.springboot.web.entity.Book" parameterType="int">  
+        select * from book where id=#{id}  
+    </select>  
+  
+</mapper> 

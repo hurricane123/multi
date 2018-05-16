@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 import com.hurricane.learn.springboot.web.entity.User;
 
-@WebFilter("/*")
+//@WebFilter("/*")
 public class SecureFilter implements Filter{
 	private static final Logger logger = LoggerFactory.getLogger(SecureFilter.class);
 	@Autowired
