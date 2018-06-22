@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.hurricane.learn.springboot.web.dao.UserDao">  
+  
+  
+    <select id="getUserById" resultType="com.hurricane.learn.springboot.web.entity.User" parameterType="int">  
+        select * from user where id=#{id}  
+    </select>  
+    <select id="getUserTotals" resultType="int">  
+        select count(0) from user
+    </select>  
+    <select id="getUserByPage" resultType="com.hurricane.learn.springboot.web.entity.User">  
+        select * from user limit #{begin},#{size}
+    </select>  
+  
+</mapper> 

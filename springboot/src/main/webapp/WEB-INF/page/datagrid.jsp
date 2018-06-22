@@ -9,14 +9,23 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/jquery-easyui-1.5.5.2/locale/easyui-lang-zh_CN.js"></script>  
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jquery-easyui-1.5.5.2/themes/default/easyui.css"/>  
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jquery-easyui-1.5.5.2/themes/icon.css"/>   
+<style type="text/css">
+.btn{
+	width: 100px;
+	height: 30px;
+	background-color: #eee;
+}
+</style>
 </head>
 <body>
+<button class="btn"><a id="export">导出数据</a></button>
 <table id="dg"></table>  
 
 <script type="text/javascript">
 $(function(){
 	$('#dg').datagrid({    
-	    url:'${pageContext.request.contextPath }/dataGridData',
+//	    url:'${pageContext.request.contextPath }/dataGridData',
+	    url:'${pageContext.request.contextPath }/user/userData',
 	    columns:[[  
 	        {field:'ck',checkbox:true},
 	        {field:'id',title:'ID',width:100},    
@@ -29,14 +38,20 @@ $(function(){
 	    checkOnSelect: true,
 		selectOnCheck: true,
 	    checkbox:true,
-	    loadFilter:function(data){
-	    	debugger
-	    	if($.isArray(data)){
-	    		data = {total:500,rows:data}
-	    	}
-	    	return data;
-	    }
-	}); 
+//	    loadFilter:function(data){
+//	    	debugger
+//	    	if($.isArray(data)){
+//	    		data = {total:500,rows:data}
+//	    	}
+//	    	return data;
+//	    }
+	});
+	
+	$("#export").click(function(){
+		var page = $("#dg").datagrid('options').pageNumber;
+		var size = $("#dg").datagrid('options').pageSize;
+		$("#export").attr("href","${pageContext.request.contextPath }/user/export?page="+page+"&size="+size);
+	});
 }) 
 </script>
 </body>
