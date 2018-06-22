@@ -64,8 +64,7 @@ public class UserController {
 	
 	
 	public void outputPdf(int begin, int size,OutputStream out) throws ClassNotFoundException, SQLException, FileNotFoundException, JRException {
-		System.out.println(111);
-		JasperReport report = (JasperReport)JRLoader.loadObject(new File("E:\\workspace\\ireport\\userReport.jasper"));
+		JasperReport report = (JasperReport)JRLoader.loadObject(UserController.class.getClassLoader().getResourceAsStream("userReport.jasper"));
 	    Map parameters = new HashMap();
 	    parameters.put("begin", begin);
 	    parameters.put("size", size);
