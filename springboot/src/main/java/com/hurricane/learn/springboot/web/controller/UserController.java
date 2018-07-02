@@ -1,6 +1,5 @@
 package com.hurricane.learn.springboot.web.controller;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -8,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,7 +28,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hurricane.learn.springboot.web.entity.User;
 import com.hurricane.learn.springboot.web.service.UserService;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 @RequestMapping("user")
 @RestController
@@ -62,7 +70,6 @@ public class UserController {
 		}
 	}
 	
-	
 	public void outputPdf(int begin, int size,OutputStream out) throws ClassNotFoundException, SQLException, FileNotFoundException, JRException {
 		JasperReport report = (JasperReport)JRLoader.loadObject(UserController.class.getClassLoader().getResourceAsStream("userReport.jasper"));
 	    Map parameters = new HashMap();
@@ -86,6 +93,53 @@ public class UserController {
         exporter.exportReport();
         
 	    conn.close();
+	}
+	
+	@RequestMapping("exportUsePoi")
+	public void exportUserDataUsePoi(@RequestParam Map map,HttpServletResponse response) {
+		Object object = map.get("page");
+		Object object2 = map.get("size");
+		int page = Integer.parseInt((String) Optional.ofNullable(object).orElse("1"));
+		int size = Integer.parseInt((String) Optional.ofNullable(object2).orElse("5")) ;
+		response.setHeader("Content-disposition","attachment;filename=userInfo.pdf");
+		try {
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputPdfUsePoi((page-1)*size, size,outputStream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void outputPdfUsePoi(int begin, int size,OutputStream out) throws Exception {
+		List<User> userByRange = userService.getUserByRange(begin, size);
+		if (userByRange!=null && userByRange.size()>0) {
+			Document document = new Document();
+			BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", false);
+			Font fontZH = new Font(bfChinese, 12.0F, 0);
+			PdfWriter writer = PdfWriter.getInstance(document, out);
+			document.open();
+			String title = "用户信息";
+			document.add(new Paragraph(new Chunk(title, fontZH).setLocalDestination(title)));
+			document.add(new Paragraph("\n"));
+			PdfPTable table = new PdfPTable(3);
+			table.setWidthPercentage(100.0F);
+			table.setHeaderRows(1);
+			table.getDefaultCell().setHorizontalAlignment(1);
+			table.addCell(new Paragraph("ID", fontZH));
+			table.addCell(new Paragraph("用户名", fontZH));
+			table.addCell(new Paragraph("密码", fontZH));
+			for (User user : userByRange) {
+				table.addCell(new Paragraph(user.getId()+"", fontZH));
+				table.addCell(new Paragraph(user.getUsername(), fontZH));
+				table.addCell(new Paragraph(user.getPassword(), fontZH));
+			}
+			document.add(table);
+			document.add(new Paragraph("\n"));
+			
+			writer.flush();
+			document.close();
+		}
 	}
 
 }

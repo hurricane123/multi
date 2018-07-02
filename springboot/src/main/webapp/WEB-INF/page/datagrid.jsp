@@ -11,14 +11,15 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/jquery-easyui-1.5.5.2/themes/icon.css"/>   
 <style type="text/css">
 .btn{
-	width: 100px;
+	width: 154px;
 	height: 30px;
 	background-color: #eee;
 }
 </style>
 </head>
 <body>
-<button class="btn"><a id="export">导出数据</a></button>
+<a id="export"><button class="btn">JasperReport导出数据</button></a>
+<a id="export2"><button class="btn">POI导出数据</button></a>
 <table id="dg"></table>  
 
 <script type="text/javascript">
@@ -51,6 +52,11 @@ $(function(){
 		var page = $("#dg").datagrid('options').pageNumber;
 		var size = $("#dg").datagrid('options').pageSize;
 		$("#export").attr("href","${pageContext.request.contextPath }/user/export?page="+page+"&size="+size);
+	});
+	$("#export2").click(function(){
+		var page = $("#dg").datagrid('options').pageNumber;
+		var size = $("#dg").datagrid('options').pageSize;
+		$("#export2").attr("href","${pageContext.request.contextPath }/user/exportUsePoi?page="+page+"&size="+size);
 	});
 }) 
 </script>

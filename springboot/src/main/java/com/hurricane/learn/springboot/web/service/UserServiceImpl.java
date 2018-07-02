@@ -50,5 +50,16 @@ public class UserServiceImpl implements UserService{
 		gridData.setTotal(total);
 		return gridData;
 	}
+	
+	@Override
+	public List<User> getUserByRange(int begin,int size) {
+		begin = begin<0?0:begin;
+		size = size<=0?5:size;
+		Map<String, Integer> params = new HashMap<String, Integer>();
+		params.put("begin", begin);
+		params.put("size", size);
+		List<User> resultList = userDao.getUserByPage(params);
+		return resultList;
+	}
 
 }

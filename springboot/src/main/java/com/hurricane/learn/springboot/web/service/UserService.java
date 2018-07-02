@@ -9,5 +9,7 @@ public interface UserService {
 	Object getUserById(int... id);
 
 	Object getUserByPage(int page, int size);
+
+	List<User> getUserByRange(int begin, int size);
 	
 }
