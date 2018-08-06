@@ -11,7 +11,12 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 这种方式只有放置到tomcat下部署，才能生效
+ * @author Hurricane
+ * @date 2018年8月6日
+ * @version 1.0
+ */
 @ServerEndpoint("/socketPoint")
 public class MySocketServlet{
 	private static Logger logger = LoggerFactory.getLogger(MySocketServlet.class);
