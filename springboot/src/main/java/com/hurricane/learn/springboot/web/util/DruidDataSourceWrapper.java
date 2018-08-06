@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
-@ConfigurationProperties("spring.datasource.druid")
+@ConfigurationProperties(value="spring.datasource.druid",ignoreInvalidFields=true)
 public class DruidDataSourceWrapper extends DruidDataSource implements InitializingBean {
 	private static final long serialVersionUID = 1028748796947256521L;
 	

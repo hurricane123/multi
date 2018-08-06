@@ -7,8 +7,11 @@ import java.util.function.BiConsumer;
 import javax.sql.DataSource;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -16,7 +19,7 @@ import com.zaxxer.hikari.HikariConfig;
 
 @SpringBootApplication
 @ServletComponentScan
-public class App {
+public class App extends SpringBootServletInitializer{
 	// springboot默认的数据源为com.zaxxer.hikari.HikariDataSource，通过下面的方式可以看到HikariDataSource数据源的配置
 	static BiConsumer<String, DataSource> hikariPrint = (a, d) -> {
 		try {
@@ -45,6 +48,13 @@ public class App {
 
 //		 ConfigurableApplicationContext run = SpringApplication.run(App.class,
 //		 args);
+	}
+	
+	@Override
+	protected SpringApplicationBuilder configure(
+			SpringApplicationBuilder builder) {
+		builder.sources(App.class).web(WebApplicationType.SERVLET);
+		return builder;
 	}
 
 	/**
