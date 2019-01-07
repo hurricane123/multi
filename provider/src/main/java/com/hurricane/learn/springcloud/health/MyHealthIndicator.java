@@ -10,7 +10,7 @@ import com.hurricane.learn.springcloud.controller.StatusController;
 @Component
 public class MyHealthIndicator implements HealthIndicator {
 
-	@Override
+//	@Override
 	public Health health() {
 		Builder builder = new Health.Builder();
 		if (StatusController.status) {
